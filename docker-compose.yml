@@ -1,0 +1,11 @@
+version: "3"
+services: 
+  db:
+    image: postgres:12
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: bookit
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
