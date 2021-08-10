@@ -1,3 +1,3 @@
-export const to = <T>(promise: Promise<T>) => {
-  return promise.then(res => [null, res]).catch(err => [err]);
+export const to = <T>(promise: Promise<T>): Promise<{ err?: any; res?: T }> => {
+  return promise.then(res => ({ res })).catch(err => ({ err }));
 };

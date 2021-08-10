@@ -1,16 +1,16 @@
 type Event {
-    id: String
-    start_date: String
-    end_date: String
-    description: String
-    title: String
-    created_at: String
-    updated_at: String
-    activity_registration: ActivityRegistration
-    room: Room
+  id: String
+  begin_date: String
+  end_date: String
+  description: String
+  title: String
+  created_at: String
+  updated_at: String
+  activity_registration: ActivityRegistration
+  room: [Room]
 }
 
 type Query {
-    events: [Event]
-    event(id: String): Event
+  events: [Event]
+  event(id: String): Event
 }

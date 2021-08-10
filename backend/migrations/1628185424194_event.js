@@ -3,7 +3,7 @@
 exports.shorthands = undefined;
 
 exports.up = pgm => {
-  pgm.createTable("reservation", {
+  pgm.createTable("event", {
     id: {
       type: "uuid",
       primaryKey: true,
@@ -40,7 +40,7 @@ exports.up = pgm => {
       references: "activity_registration(id)",
     },
     room: {
-      type: "uuid",
+      type: "text[]",
       notNull: true,
     },
   });

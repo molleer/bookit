@@ -1,4 +1,5 @@
-type Room {
-    id: String
-    name: String
+enum Room {
+  BIG_HUB
+  GROUP_ROOM
+  STUDY_ROOM
 }

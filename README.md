@@ -3,7 +3,7 @@
 ```
     docker compose up -d
     cd backend
-    bash dev_setup.sh
+    source dev_setup.sh
     npm run dev
 ```
 
