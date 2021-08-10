@@ -1,6 +1,8 @@
+import { Tools } from "../utils/commonTypes";
+
 const { getEventQResolvers } = require("./event.resolver");
 
-const getResolvers = tools => {
+export const getResolvers = (tools: Tools) => {
   return {
     Query: {
       ...getEventQResolvers(tools),
@@ -8,5 +10,3 @@ const getResolvers = tools => {
     //Mutation: {},
   };
 };
-
-module.exports = getResolvers;
