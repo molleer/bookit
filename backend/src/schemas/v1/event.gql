@@ -1,16 +1,32 @@
 type Event {
   id: String
-  begin_date: String
-  end_date: String
+  begin_date: String!
+  end_date: String!
   description: String
-  title: String
+  title: String!
   created_at: String
   updated_at: String
   activity_registration: ActivityRegistration
-  room: [Room]
+  room: [Room]!
 }
 
 type Query {
   events: [Event]
   event(id: String): Event
+}
+
+input InputEvent {
+  id: String
+  begin_date: String!
+  end_date: String!
+  description: String
+  title: String!
+  created_at: String
+  updated_at: String
+  activity_registration: InputActivityRegistration
+  room: [Room]!
+}
+
+type Mutation {
+  createEvent(event: InputEvent): Boolean
 }

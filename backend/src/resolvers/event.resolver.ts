@@ -1,6 +1,11 @@
-import { getEvents, getEvent } from "../repositories/event.repository";
+import {
+  getEvents,
+  getEvent,
+  createEvent,
+} from "../repositories/event.repository";
 import { to } from "../utils";
 import { Tools } from "../utils/commonTypes";
+import { Event } from "../models/event";
 import pg from "pg";
 
 export const getEventQResolvers = ({ db }: Tools) => ({
@@ -20,5 +25,16 @@ export const getEventQResolvers = ({ db }: Tools) => ({
     }
     if (!res || res?.rows.length < 1) return { id: "Hello" };
     return res?.rows[0];
+  },
+});
+
+export const getEventMResolvers = ({ db }: Tools) => ({
+  createEvent: async (_: any, { event }: { event: Event }) => {
+    const { err } = await to<pg.QueryResult<any>>(createEvent(db, event));
+    if (err) {
+      console.log(err);
+      return false;
+    }
+    return true;
   },
 });
