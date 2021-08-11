@@ -1,5 +1,6 @@
 import { Tools } from "../utils/commonTypes";
 import { getEventMResolvers, getEventQResolvers } from "./event.resolver";
+import { getActRegistrationResolvers } from "./activity_registration.resolver";
 
 export const getResolvers = (tools: Tools) => {
   return {
@@ -9,5 +10,6 @@ export const getResolvers = (tools: Tools) => {
     Mutation: {
       ...getEventMResolvers(tools),
     },
+    ...getActRegistrationResolvers(tools),
   };
 };

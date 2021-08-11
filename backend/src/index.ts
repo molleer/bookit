@@ -1,6 +1,6 @@
-const express = require("express");
-const { Pool } = require("pg");
-const { setupRoutes } = require("./routes");
+import express from "express";
+import { Pool } from "pg";
+import { setupRoutes } from "./routes";
 
 const app = express();
 const db = new Pool({

@@ -3,6 +3,7 @@
 exports.shorthands = undefined;
 
 exports.up = pgm => {
+  pgm.createExtension("uuid-ossp");
   pgm.createTable("event", {
     id: {
       type: "uuid",
@@ -33,11 +34,6 @@ exports.up = pgm => {
       type: "timestamp",
       notNull: true,
       default: pgm.func("NOW()"),
-    },
-    activity_registration: {
-      type: "uuid",
-      foreignKey: true,
-      references: "activity_registration(id)",
     },
     room: {
       type: "text[]",

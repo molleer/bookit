@@ -3,12 +3,17 @@
 exports.shorthands = undefined;
 
 exports.up = pgm => {
-  pgm.createExtension("uuid-ossp");
   pgm.createTable("activity_registration", {
     id: {
       type: "uuid",
       primaryKey: true,
       default: pgm.func("uuid_generate_v1()"),
+    },
+    event_id: {
+      type: "uuid",
+      foreignKey: true,
+      references: "event(id)",
+      notNull: true,
     },
     responsible_name: {
       type: "string",
