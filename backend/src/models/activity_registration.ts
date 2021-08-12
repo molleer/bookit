@@ -1,3 +1,5 @@
+import { Event } from "./event";
+
 export enum RegistrationStatus {
   PENDING,
   ACCEPTED,
@@ -14,4 +16,5 @@ export interface ActivityRegistration {
   co_responsible_email: String;
   serving_permit: Boolean;
   status: RegistrationStatus;
+  event?: Event;
 }

@@ -3,7 +3,25 @@ import { Tools } from "../utils/commonTypes";
 import pg from "pg";
 import { ActivityRegistration } from "../models/activity_registration";
 import { Event } from "../models/event";
-import { getActReg } from "../repositories/activity_registration.repository";
+import {
+  getActReg,
+  getActRegs,
+  JoinedAR,
+  toActivityRegistration,
+} from "../repositories/activity_registration.repository";
+
+export const getActRegistrationQResolvers = (tools: Tools) => ({
+  activity_registrations: async () => {
+    const { err, res } = await to<pg.QueryResult<JoinedAR>>(
+      getActRegs(tools.db),
+    );
+    if (err) {
+      console.log(err);
+      return [];
+    }
+    return res?.rows.map(e => toActivityRegistration(e));
+  },
+});
 
 export const getActRegistrationResolvers = (tools: Tools) => ({
   Event: {

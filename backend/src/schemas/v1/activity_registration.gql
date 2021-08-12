@@ -14,6 +14,7 @@ type ActivityRegistration {
   co_responsible_email: String
   serving_permit: Boolean
   status: RegistrationStatus
+  event: Event
 }
 
 input InputActivityRegistration {
@@ -26,4 +27,8 @@ input InputActivityRegistration {
   co_responsible_email: String
   serving_permit: Boolean
   status: RegistrationStatus
+}
+
+type Query {
+  activity_registrations: [ActivityRegistration]
 }

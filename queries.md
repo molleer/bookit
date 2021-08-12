@@ -21,6 +21,19 @@ INSERT INTO activity_registration (event_id, responsible_name, responsible_numbe
   'alice@alice.com');
 ```
 
+### Inner join select
+
+```SQL
+SELECT * FROM activity_registration INNER JOIN event
+ON event.id=activity_registration.event_id;
+```
+
+```SQL
+SELECT (responsible_name, responsible_email) as event, (title, begin_date) as activity_registration
+FROM activity_registration INNER JOIN event
+ON event.id=activity_registration.event_id;
+```
+
 ## GraphQL Queries
 
 ### Query all
