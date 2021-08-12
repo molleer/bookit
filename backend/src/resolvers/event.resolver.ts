@@ -2,6 +2,7 @@ import {
   getEvents,
   getEvent,
   createEvent,
+  getEventsFT,
 } from "../repositories/event.repository";
 import { to } from "../utils";
 import { Tools } from "../utils/commonTypes";
@@ -11,6 +12,16 @@ import pg from "pg";
 export const getEventQResolvers = ({ db }: Tools) => ({
   events: async () => {
     const { err, res } = await to<pg.QueryResult<Event[]>>(getEvents(db));
+    if (err) {
+      console.log(err);
+      return [];
+    }
+    return res?.rows;
+  },
+  eventsFT: async (_: any, ft: { from: String; to: String }) => {
+    const { err, res } = await to<pg.QueryResult<Event[]>>(
+      getEventsFT(db, ft.from, ft.to),
+    );
     if (err) {
       console.log(err);
       return [];

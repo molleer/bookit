@@ -13,6 +13,7 @@ type Event {
 type Query {
   events: [Event]
   event(id: String): Event
+  eventsFT(from: String!, to: String!): [Event]
 }
 
 input InputEvent {

@@ -6,12 +6,26 @@ export const getEvents = (db: pg.Pool): Promise<pg.QueryResult<Event[]>> =>
     "SELECT id, begin_date, end_date, description, title, created_at, updated_at, room FROM event",
   );
 
+export const getEventsFT = (
+  db: pg.Pool,
+  from: String,
+  to: String,
+): Promise<pg.QueryResult<Event[]>> =>
+  db.query<Event[]>(
+    "SELECT id, begin_date, end_date, description, \
+    title, created_at, updated_at, room \
+    FROM event WHERE $1 <= end_date AND $2 >= begin_date;",
+    [from, to],
+  );
+
 export const getEvent = (
   db: pg.Pool,
   id: String,
 ): Promise<pg.QueryResult<Event>> =>
   db.query<Event>(
-    "SELECT id, begin_date, end_date, description, title, created_at, updated_at, room FROM event WHERE id=$1",
+    "SELECT id, begin_date, end_date, description, \
+    title, created_at, updated_at, room \
+    FROM event WHERE id=$1",
     [id],
   );
 
