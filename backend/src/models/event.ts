@@ -3,8 +3,8 @@ import { Room } from "./room";
 
 export interface Event {
   id?: String;
-  begin_date: String;
-  end_date: String;
+  start: String;
+  end: String;
   description?: String;
   title: String;
   created_at: String;

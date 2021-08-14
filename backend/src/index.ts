@@ -1,9 +1,14 @@
 import express from "express";
-import { Pool } from "pg";
+import pg from "pg";
 import { setupRoutes } from "./routes";
 
 const app = express();
-const db = new Pool({
+
+pg.types.setTypeParser(1114, function (stringValue) {
+  return stringValue;
+});
+
+const db = new pg.Pool({
   user: process.env.DB_USER,
   database: process.env.DB_NAME,
   password: process.env.DB_PASS,

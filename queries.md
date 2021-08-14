@@ -3,7 +3,7 @@
 ### Insert element
 
 ```SQL
-INSERT INTO event (title, description, begin_date, end_date, room) VALUES (
+INSERT INTO event (title, description, start, end_date as end, room) VALUES (
     'Fun Event',
     'A verry good event',
     '2021-08-10T21:00' ,
@@ -29,7 +29,7 @@ ON event.id=activity_registration.event_id;
 ```
 
 ```SQL
-SELECT (responsible_name, responsible_email) as event, (title, begin_date) as activity_registration
+SELECT (responsible_name, responsible_email) as event, (title, start as start) as activity_registration
 FROM activity_registration INNER JOIN event
 ON event.id=activity_registration.event_id;
 ```

@@ -17,7 +17,7 @@ exports.up = pgm => {
     description: {
       type: "text",
     },
-    begin_date: {
+    start: {
       type: "timestamp",
       notNull: true,
     },

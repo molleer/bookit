@@ -7,8 +7,8 @@ import { Room } from "../models/room";
 
 export interface JoinedAR {
   event_id: String;
-  begin_date: String;
-  end_date: String;
+  start: String;
+  end: String;
   description?: String;
   title: String;
   created_at: String;
@@ -40,8 +40,8 @@ export const toActivityRegistration = (
   status: act.status,
   event: {
     id: act.event_id,
-    begin_date: act.begin_date,
-    end_date: act.end_date,
+    start: act.start,
+    end: act.end,
     description: act.description,
     title: act.title,
     created_at: act.created_at,
@@ -63,7 +63,7 @@ export const getActReg = (
 
 export const getActRegs = (db: pg.Pool): Promise<pg.QueryResult<JoinedAR>> =>
   db.query(
-    "SELECT event.id as event_id, activity_registration.id as id, begin_date, end_date, description, title, \
+    "SELECT event.id as event_id, activity_registration.id as id, start, end, description, title, \
     created_at, updated_at, room, \
     responsible_name, responsible_number, responsible_email, \
     co_responsible_name, co_responsible_number, co_responsible_email, \

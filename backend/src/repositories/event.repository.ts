@@ -3,7 +3,7 @@ import pg from "pg";
 
 export const getEvents = (db: pg.Pool): Promise<pg.QueryResult<Event[]>> =>
   db.query<Event[]>(
-    "SELECT id, begin_date, end_date, description, title, created_at, updated_at, room FROM event",
+    "SELECT id, start, end_date as end, description, title, created_at, updated_at, room FROM event",
   );
 
 export const getEventsFT = (
@@ -12,9 +12,9 @@ export const getEventsFT = (
   to: String,
 ): Promise<pg.QueryResult<Event[]>> =>
   db.query<Event[]>(
-    "SELECT id, begin_date, end_date, description, \
+    "SELECT id, start, end_date as end, description, \
     title, created_at, updated_at, room \
-    FROM event WHERE $1 <= end_date AND $2 >= begin_date;",
+    FROM event WHERE $1 <= end_date AND $2 >= start;",
     [from, to],
   );
 
@@ -23,7 +23,7 @@ export const getEvent = (
   id: String,
 ): Promise<pg.QueryResult<Event>> =>
   db.query<Event>(
-    "SELECT id, begin_date, end_date, description, \
+    "SELECT id, start, end_date as end, description, \
     title, created_at, updated_at, room \
     FROM event WHERE id=$1",
     [id],
@@ -31,12 +31,6 @@ export const getEvent = (
 
 export const createEvent = (db: pg.Pool, event: Event) =>
   db.query(
-    "INSERT INTO event (begin_date, end_date, description, title, room) VALUES ($1, $2, $3, $4, $5)",
-    [
-      event.begin_date,
-      event.end_date,
-      event.description,
-      event.title,
-      event.room,
-    ],
+    "INSERT INTO event (start, end_date, description, title, room) VALUES ($1, $2, $3, $4, $5)",
+    [event.start, event.end, event.description, event.title, event.room],
   );
