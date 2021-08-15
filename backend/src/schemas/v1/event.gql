@@ -6,7 +6,7 @@ type Event {
   title: String!
   created_at: String
   updated_at: String
-  activity_registration: ActivityRegistration
+  party_report: PartyReport
   room: [Room]!
 }
 
@@ -24,8 +24,8 @@ input InputEvent {
   title: String!
   created_at: String
   updated_at: String
-  activity_registration: InputActivityRegistration
-  room: [Room]!
+  party_report: InputPartyReport
+  room: Room!
 }
 
 type Mutation {

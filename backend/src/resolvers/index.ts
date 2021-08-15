@@ -1,19 +1,19 @@
 import { Tools } from "../utils/commonTypes";
 import { getEventMResolvers, getEventQResolvers } from "./event.resolver";
 import {
-  getActRegistrationQResolvers,
-  getActRegistrationResolvers,
-} from "./activity_registration.resolver";
+  getPartyReportQResolvers,
+  getPartyReportResolvers,
+} from "./party_report.resolver";
 
 export const getResolvers = (tools: Tools) => {
   return {
     Query: {
       ...getEventQResolvers(tools),
-      ...getActRegistrationQResolvers(tools),
+      ...getPartyReportQResolvers(tools),
     },
     Mutation: {
       ...getEventMResolvers(tools),
     },
-    ...getActRegistrationResolvers(tools),
+    ...getPartyReportResolvers(tools),
   };
 };

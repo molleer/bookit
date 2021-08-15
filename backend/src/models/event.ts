@@ -1,4 +1,4 @@
-import { ActivityRegistration } from "./activity_registration";
+import { PartyReport } from "./party_report";
 import { Room } from "./room";
 
 export interface Event {
@@ -9,6 +9,6 @@ export interface Event {
   title: String;
   created_at: String;
   updated_at: String;
-  activity_registration?: ActivityRegistration;
-  room: Room[];
+  party_report?: PartyReport;
+  room: Room;
 }

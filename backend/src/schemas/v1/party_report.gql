@@ -4,7 +4,7 @@ enum RegistrationStatus {
   DENIED
 }
 
-type ActivityRegistration {
+type PartyReport {
   id: String
   responsible_name: String!
   responsible_number: String!
@@ -17,7 +17,7 @@ type ActivityRegistration {
   event: Event
 }
 
-input InputActivityRegistration {
+input InputPartyReport {
   id: String
   responsible_name: String!
   responsible_number: String!
@@ -30,5 +30,5 @@ input InputActivityRegistration {
 }
 
 type Query {
-  activity_registrations: [ActivityRegistration]
+  party_reports: [PartyReport]
 }

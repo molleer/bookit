@@ -6,7 +6,7 @@ export enum RegistrationStatus {
   DENIED,
 }
 
-export interface ActivityRegistration {
+export interface PartyReport {
   id: String;
   responsible_name: String;
   responsible_number: String;
