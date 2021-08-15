@@ -1,0 +1,9 @@
+.add-event-button {
+  z-index: 1;
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  border-radius: 5rem;
+  background-color: #2196f3;
+  color: #fff;
+}

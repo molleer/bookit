@@ -33,9 +33,7 @@ const Calendar = ({ getEvents, eventClick }) => {
       eventOverlap
       height={window.innerWidth > 600 ? "100%" : "auto"}
       events={async info => {
-        console.log("Hello there");
         const events = await getEvents(info.start, info.end);
-        console.log(events);
         return events;
       }}
     />
