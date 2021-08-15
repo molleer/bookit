@@ -1,11 +1,27 @@
-import React, { useState } from "react";
 import NewReservationFrom from "./new-event.form";
 import { DigitDesign, DigitLayout } from "@cthit/react-digit-components";
+import { createEvent } from "../../api/backend.api";
 
 const NewReservation = () => {
-  const handleSubmit = values => {
-    //TODO: Send submit request to backend
-    console.log(values);
+  const handleSubmit = ({
+    title,
+    phone,
+    room,
+    start,
+    end,
+    description,
+    ...other
+  }) => {
+    createEvent({
+      title,
+      //phone,
+      room,
+      start: start.toISOString(),
+      end: end.toISOString(),
+      description,
+    })
+      .then(() => console.log("Event created"))
+      .catch(err => console.log(err));
   };
 
   return (

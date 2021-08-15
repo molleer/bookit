@@ -1,4 +1,3 @@
-import React from "react";
 import {
   DigitTextField,
   useDigitFormField,
@@ -6,7 +5,13 @@ import {
 
 const Title = () => {
   const titleValues = useDigitFormField("title");
-  return <DigitTextField {...titleValues} upperLabel="Title" />;
+  return (
+    <DigitTextField
+      {...titleValues}
+      size={{ width: "20rem" }}
+      upperLabel="Title"
+    />
+  );
 };
 
 export default Title;

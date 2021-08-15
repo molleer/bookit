@@ -11,10 +11,10 @@ INSERT INTO event (title, description, start, end_date as end, room) VALUES (
     '{ BIG_HUB }') RETURNING id;
 ```
 
-### Insert activity registration
+### Insert party report
 
 ```SQL
-INSERT INTO activity_registration (event_id, responsible_name, responsible_number, responsible_email) VALUES (
+INSERT INTO party_report (event_id, responsible_name, responsible_number, responsible_email) VALUES (
   '32611ba8-fade-11eb-9574-0242ac1a0002',
   'Alice',
   '1234',
@@ -24,14 +24,14 @@ INSERT INTO activity_registration (event_id, responsible_name, responsible_numbe
 ### Inner join select
 
 ```SQL
-SELECT * FROM activity_registration INNER JOIN event
-ON event.id=activity_registration.event_id;
+SELECT * FROM party_report INNER JOIN event
+ON event.id=party_report.event_id;
 ```
 
 ```SQL
-SELECT (responsible_name, responsible_email) as event, (title, start as start) as activity_registration
-FROM activity_registration INNER JOIN event
-ON event.id=activity_registration.event_id;
+SELECT (responsible_name, responsible_email) as event, (title, start as start) as party_report
+FROM party_report INNER JOIN event
+ON event.id=party_report.event_id;
 ```
 
 ## GraphQL Queries

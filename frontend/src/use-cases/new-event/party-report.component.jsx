@@ -5,7 +5,7 @@ import {
   DigitLayout,
 } from "@cthit/react-digit-components";
 
-const ActivityRegistration = () => {
+const PartyReport = () => {
   const activityValues = formField("isActivity");
   const permitValues = formField("permit");
   const repNameValues = formField("responsible_name");
@@ -43,4 +43,4 @@ const ActivityRegistration = () => {
   );
 };
 
-export default ActivityRegistration;
+export default PartyReport;

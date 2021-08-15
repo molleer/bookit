@@ -1,15 +1,20 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   DigitForm,
   DigitLayout,
   DigitButton,
-  DigitText,
   useDigitToast,
 } from "@cthit/react-digit-components";
 import * as yup from "yup";
-import { Title, TimeAndTimePicker, Description, Rooms } from "./elements";
+import {
+  Title,
+  TimeAndTimePicker,
+  Description,
+  Rooms,
+  PhoneNumber,
+} from "./elements";
 import * as moment from "moment";
-import ActivityRegistration from "./party-report.component";
+import PartyReport from "./party-report.component";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
 
@@ -19,13 +24,22 @@ const whenTrue = {
   otherwise: yup.string(),
 };
 
+const badRooms = [
+  "",
+  {
+    target: {
+      value: "null",
+    },
+  },
+];
+
 const validationSchema = yup.object().shape({
-  title: yup.string().required(),
-  phone: yup.string().required(),
-  room: yup.string().notOneOf([""], "Du måste välja vilket rum du vill boka"),
+  title: yup.string().required("You need to provide a title for the event"),
+  phone: yup.string().required("You need to provide a phone number"),
+  room: yup.string().notOneOf(badRooms, "You need to select a room to book"),
   description: yup.string(),
-  begin_date: yup.date().required(),
-  end_date: yup.date().required(),
+  start: yup.date().required(),
+  end: yup.date().required(),
   isActivity: yup.bool().required(),
   permit: yup.bool(),
   responsible_name: yup.string().when("isActivity", whenTrue),
@@ -37,12 +51,12 @@ const default_begin_date = new Date();
 const default_end_date = moment(new Date()).add(1, "h").toDate();
 
 const initialValues = {
-  title: "Event",
-  phone: "123",
+  title: "",
+  phone: "",
   room: "",
-  begin_date: default_begin_date,
-  end_date: default_end_date,
-  description: "Hi there",
+  start: default_begin_date,
+  end: default_end_date,
+  description: "",
   isActivity: false,
   permit: false,
   responsible_name: "",
@@ -71,7 +85,6 @@ const NewReservationFrom = ({ onSubmit }) => {
     actionText: "Ok",
     actionHandler: () => {},
   });
-  const me = null;
   const [beginDate, setBeginDate] = useState(default_begin_date);
   const [endDate, setEndDate] = useState(default_end_date);
   const [room, setRoom] = useState(null);
@@ -100,15 +113,20 @@ const NewReservationFrom = ({ onSubmit }) => {
         <DigitLayout.Column>
           {/*<DigitText.Text text={`Bokare: ${me ? me.cid : ""}`} />*/}
           <Title />
+          <PhoneNumber
+            name="phone"
+            label="Phone number"
+            size={{ width: "20rem" }}
+          />
           <Rooms rooms={rooms} onChange={e => setRoom(e.target.value)} />
           <DigitLayout.Row>
             <TimeAndTimePicker
-              name="begin_date"
+              name="start"
               label="Startdatum"
               onChange={e => setBeginDate(e.target.value)}
             />
             <TimeAndTimePicker
-              name="end_date"
+              name="end"
               label="Slutdatum"
               onChange={e => setEndDate(e.target.value)}
             />
@@ -120,7 +138,7 @@ const NewReservationFrom = ({ onSubmit }) => {
           </DigitLayout.Row>
           <Description />
 
-          <ActivityRegistration />
+          <PartyReport />
           {/*<a href="https://prit.chalmers.it/Bokningsvillkor.pdf">
             <DigitText.Subtitle text="*bokningsvillkoren" />
         </a>*/}
