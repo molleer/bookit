@@ -1,17 +1,15 @@
-import {
-  getEvents,
-  getEvent,
-  createEvent,
-  getEventsFT,
-} from "../repositories/event.repository";
+import * as events from "../repositories/event.repository";
 import { to } from "../utils";
 import { Tools } from "../utils/commonTypes";
 import { Event } from "../models/event";
 import pg from "pg";
+import { createEvent } from "../services/event.service";
 
 export const getEventQResolvers = ({ db }: Tools) => ({
   events: async () => {
-    const { err, res } = await to<pg.QueryResult<Event[]>>(getEvents(db));
+    const { err, res } = await to<pg.QueryResult<Event[]>>(
+      events.getEvents(db),
+    );
     if (err) {
       console.log(err);
       return [];
@@ -20,7 +18,7 @@ export const getEventQResolvers = ({ db }: Tools) => ({
   },
   eventsFT: async (_: any, ft: { from: String; to: String }) => {
     const { err, res } = await to<pg.QueryResult<Event[]>>(
-      getEventsFT(db, ft.from, ft.to),
+      events.getEventsFT(db, ft.from, ft.to),
     );
     if (err) {
       console.log(err);
@@ -29,7 +27,9 @@ export const getEventQResolvers = ({ db }: Tools) => ({
     return res?.rows;
   },
   event: async (_: any, { id }: { id: String }) => {
-    const { err, res } = await to<pg.QueryResult<Event>>(getEvent(db, id));
+    const { err, res } = await to<pg.QueryResult<Event>>(
+      events.getEvent(db, id),
+    );
     if (err) {
       console.log(err);
       return {};
@@ -40,12 +40,6 @@ export const getEventQResolvers = ({ db }: Tools) => ({
 });
 
 export const getEventMResolvers = ({ db }: Tools) => ({
-  createEvent: async (_: any, { event }: { event: Event }) => {
-    const { err } = await to<pg.QueryResult<any>>(createEvent(db, event));
-    if (err) {
-      console.log(err);
-      return false;
-    }
-    return true;
-  },
+  createEvent: async (_: any, { event }: { event: Event }) =>
+    createEvent(db, event),
 });
