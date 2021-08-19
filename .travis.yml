@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "14"
+before_install:
+  - cd backend
+install:
+  - npm i
+script:
+  - npm test
