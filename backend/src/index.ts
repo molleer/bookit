@@ -13,9 +13,9 @@ const db = new pg.Pool({
   database: process.env.DB_NAME,
   password: process.env.DB_PASS,
   host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
+  port: number(process.env.DB_PORT),
 });
 
 setupRoutes(app, { db });
 
-app.listen(Number(process.env.PORT) || 8080);
+app.listen(number(process.env.PORT) || 8080);

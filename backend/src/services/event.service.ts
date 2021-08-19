@@ -6,8 +6,8 @@ import * as events from "../repositories/event.repository";
 export const createEvent = async (
   db: pg.Pool,
   event: Event,
-): Promise<Boolean> => {
-  if (new Date(event.start.toString()) >= new Date(event.end.toString())) {
+): Promise<boolean> => {
+  if (new Date(event.start) >= new Date(event.end)) {
     return false;
   }
 

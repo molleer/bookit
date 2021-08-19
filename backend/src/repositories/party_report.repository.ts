@@ -3,23 +3,23 @@ import { PartyReport, RegistrationStatus } from "../models/party_report";
 import { Room } from "../models/room";
 
 export interface JoinedPartyReport {
-  event_id: String;
-  start: String;
-  end: String;
-  description?: String;
-  title: String;
-  created_at: String;
-  updated_at: String;
+  event_id: string;
+  start: string;
+  end: string;
+  description?: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
   room: Room;
 
-  id: String;
-  responsible_name: String;
-  responsible_number: String;
-  responsible_email: String;
-  co_responsible_name: String;
-  co_responsible_number: String;
-  co_responsible_email: String;
-  serving_permit: Boolean;
+  id: string;
+  responsible_name: string;
+  responsible_number: string;
+  responsible_email: string;
+  co_responsible_name: string;
+  co_responsible_number: string;
+  co_responsible_email: string;
+  serving_permit: boolean;
   status: RegistrationStatus;
 }
 
@@ -47,7 +47,7 @@ export const toPartyReport = (report: JoinedPartyReport): PartyReport => ({
 
 export const getPartyReport = (
   db: pg.Pool,
-  event_id: String,
+  event_id: string,
 ): Promise<pg.QueryResult<PartyReport>> =>
   db.query(
     "SELECT id, responsible_name, responsible_number, responsible_email, \

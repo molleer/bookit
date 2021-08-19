@@ -8,8 +8,8 @@ export const getEvents = (db: pg.Pool): Promise<pg.QueryResult<Event[]>> =>
 
 export const getEventsFT = (
   db: pg.Pool,
-  from: String,
-  to: String,
+  from: string,
+  to: string,
 ): Promise<pg.QueryResult<Event[]>> =>
   db.query<Event[]>(
     "SELECT id, start, end_date as end, description, \
@@ -20,7 +20,7 @@ export const getEventsFT = (
 
 export const getEvent = (
   db: pg.Pool,
-  id: String,
+  id: string,
 ): Promise<pg.QueryResult<Event>> =>
   db.query<Event>(
     "SELECT id, start, end_date as end, description, \

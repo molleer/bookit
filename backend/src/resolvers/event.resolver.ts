@@ -16,7 +16,7 @@ export const getEventQResolvers = ({ db }: Tools) => ({
     }
     return res?.rows;
   },
-  eventsFT: async (_: any, ft: { from: String; to: String }) => {
+  eventsFT: async (_: any, ft: { from: string; to: string }) => {
     const { err, res } = await to<pg.QueryResult<Event[]>>(
       events.getEventsFT(db, ft.from, ft.to),
     );
@@ -26,7 +26,7 @@ export const getEventQResolvers = ({ db }: Tools) => ({
     }
     return res?.rows;
   },
-  event: async (_: any, { id }: { id: String }) => {
+  event: async (_: any, { id }: { id: string }) => {
     const { err, res } = await to<pg.QueryResult<Event>>(
       events.getEvent(db, id),
     );

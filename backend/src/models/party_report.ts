@@ -7,14 +7,14 @@ export enum RegistrationStatus {
 }
 
 export interface PartyReport {
-  id: String;
-  responsible_name: String;
-  responsible_number: String;
-  responsible_email: String;
-  co_responsible_name: String;
-  co_responsible_number: String;
-  co_responsible_email: String;
-  serving_permit: Boolean;
+  id: string;
+  responsible_name: string;
+  responsible_number: string;
+  responsible_email: string;
+  co_responsible_name: string;
+  co_responsible_number: string;
+  co_responsible_email: string;
+  serving_permit: boolean;
   status: RegistrationStatus;
   event?: Event;
 }
