@@ -3,6 +3,7 @@ node_js:
   - "14"
 before_install:
   - cd backend
+  - npm i -g typescript
 install:
   - npm i
 script:
