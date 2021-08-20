@@ -1,0 +1,22 @@
+.day.green {
+  background: #bada55;
+}
+
+.day.red {
+  background: #931103;
+}
+
+.day {
+  width: 11px;
+  height: 11px;
+  display: inline-block;
+  margin: 2px;
+  border-radius: 2px;
+}
+
+.mask-container {
+  min-width: 140px;
+  padding-left: 0;
+  margin-left: 0;
+  justify-content: left;
+}

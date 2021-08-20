@@ -1,6 +1,7 @@
 import FullCallendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import listPlugin from "@fullcalendar/list";
 
 const Calendar = ({ getEvents, eventClick }) => {
   getEvents = getEvents ?? (() => new Promise(res => res([])));
@@ -26,9 +27,9 @@ const Calendar = ({ getEvents, eventClick }) => {
       headerToolbar={{
         start: "title",
         center: "",
-        end: "today,prev,next",
+        end: "listWeek,timeGridWeek,today,prev,next",
       }}
-      plugins={[dayGridPlugin, timeGridPlugin]}
+      plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
       initialView={window.innerWidth > 600 ? "timeGridWeek" : "timeGridDay"}
       eventOverlap
       height={window.innerWidth > 600 ? "100%" : "auto"}

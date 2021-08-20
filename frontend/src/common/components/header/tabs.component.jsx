@@ -8,8 +8,12 @@ const tabs = [
     value: "",
   },
   {
-    text: "Event list",
-    value: "event-list",
+    text: "Rules",
+    value: "rules",
+  },
+  {
+    text: "Party Reports",
+    value: "party_reports",
   },
 ];
 

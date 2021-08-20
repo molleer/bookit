@@ -1,5 +1,9 @@
 import Axios from "axios";
-import { getEvents_query, createEvent_query } from "./backend.queries";
+import {
+  getEvents_query,
+  createEvent_query,
+  getRules_query,
+} from "./backend.queries";
 
 const graphql_endpoint = "/api/graphql/v1";
 
@@ -34,5 +38,18 @@ export const createEvent = event =>
         console.log("Failed to create event");
         console.log(err);
         reject(err.message);
+      }),
+  );
+
+export const getRules = () =>
+  new Promise(resolve =>
+    Axios.post(graphql_endpoint, {
+      query: getRules_query,
+    })
+      .then(res => resolve(res.data.data.rules))
+      .catch(err => {
+        console.log("Failed to fetch rules");
+        console.log(err);
+        resolve([]);
       }),
   );
