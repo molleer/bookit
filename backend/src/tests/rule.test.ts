@@ -5,6 +5,7 @@ import {
   MiniRule,
   day,
   dayApplies,
+  mergeRules,
 } from "../services/rule.service";
 
 const defaultRule: Rule = {
@@ -95,7 +96,7 @@ describe("Rule utility functions", () => {
   });
 });
 
-const assetMiniRuleEqual = (exp: MiniRule, got: MiniRule) => {
+const assertMiniRuleEqual = (exp: MiniRule, got: MiniRule) => {
   assert.equal(got.start.toISOString(), exp.start.toISOString());
   assert.equal(got.description, exp.description);
   assert.equal(got.allow, exp.allow);
@@ -116,7 +117,7 @@ describe("Rules to MiniRules", () => {
       new Date("2021-08-20"),
     );
     assert.equal(got.length, expected.length);
-    assetMiniRuleEqual(got[0], expected[0]);
+    assertMiniRuleEqual(got[0], expected[0]);
   });
   it("Should create two mini rules", () => {
     const expected: MiniRule[] = [
@@ -137,8 +138,8 @@ describe("Rules to MiniRules", () => {
       new Date("2021-08-20"),
     );
     assert.equal(got.length, expected.length);
-    assetMiniRuleEqual(got[0], expected[0]);
-    assetMiniRuleEqual(got[1], expected[1]);
+    assertMiniRuleEqual(got[0], expected[0]);
+    assertMiniRuleEqual(got[1], expected[1]);
   });
   it("Should create two mini rules, one masked out", () => {
     const expected: MiniRule[] = [
@@ -159,7 +160,196 @@ describe("Rules to MiniRules", () => {
       new Date("2021-08-18"),
     );
     assert.equal(got.length, expected.length);
-    assetMiniRuleEqual(got[0], expected[0]);
-    assetMiniRuleEqual(got[1], expected[1]);
+    assertMiniRuleEqual(got[0], expected[0]);
+    assertMiniRuleEqual(got[1], expected[1]);
+  });
+});
+
+describe("Merge rules", () => {
+  it("No rules", () => {
+    const expected: MiniRule[] = [];
+    const got = mergeRules(
+      toMiniRules([], new Date("2021-08-18"), new Date("2021-08-20")),
+    );
+    assert.deepEqual(got, expected);
+  });
+  it("One rule", () => {
+    const expected: MiniRule[] = [
+      {
+        ...defaultMiniRule,
+        start: new Date("2021-08-20T08:00"),
+        end: new Date("2021-08-20T17:00"),
+      },
+    ];
+    const got = mergeRules(
+      toMiniRules(
+        [dummyRules[0]],
+        new Date("2021-08-20"),
+        new Date("2021-08-21"),
+      ),
+    );
+
+    assert.equal(expected.length, got.length);
+    assertMiniRuleEqual(expected[0], got[0]);
+  });
+  /**
+   *  ---------
+   * +++
+   * equals
+   * +++-------
+   */
+  it("Two overlapping rules v1", () => {
+    const rules = [
+      {
+        ...defaultRule,
+        start_date: "2001-01-01",
+        end_date: "2030-12-31",
+        start_time: "08:00",
+        end_time: "17:00",
+      },
+      {
+        ...defaultRule,
+        start_date: "2001-01-01",
+        end_date: "2030-12-31",
+        start_time: "07:00",
+        end_time: "10:00",
+        priority: 9,
+        allow: true,
+      },
+    ];
+    const expected: MiniRule[] = [
+      {
+        ...rules[1],
+        start: new Date("2021-08-20T07:00"),
+        end: new Date("2021-08-20T10:00"),
+      },
+      {
+        ...rules[0],
+        start: new Date("2021-08-20T10:00"),
+        end: new Date("2021-08-20T17:00"),
+      },
+    ];
+    const got = mergeRules(
+      toMiniRules(rules, new Date("2021-08-20"), new Date("2021-08-20")),
+    );
+    assert.equal(got.length, expected.length);
+    assertMiniRuleEqual(expected[0], got[0]);
+    assertMiniRuleEqual(expected[1], got[1]);
+  });
+  /**
+   *  ---------
+   *    +++
+   * equals
+   *  --+++----
+   */
+  it("Two overlapping rules v2", () => {
+    const rules = [
+      {
+        ...defaultRule,
+        start_date: "2001-01-01",
+        end_date: "2030-12-31",
+        start_time: "08:00",
+        end_time: "17:00",
+      },
+      {
+        ...defaultRule,
+        start_date: "2001-01-01",
+        end_date: "2030-12-31",
+        start_time: "10:00",
+        end_time: "13:00",
+        priority: 9,
+        allow: true,
+      },
+    ];
+    const expected: MiniRule[] = [
+      {
+        ...rules[0],
+        start: new Date("2021-08-20T08:00"),
+        end: new Date("2021-08-20T10:00"),
+      },
+      {
+        ...rules[1],
+        start: new Date("2021-08-20T10:00"),
+        end: new Date("2021-08-20T13:00"),
+      },
+      {
+        ...rules[0],
+        start: new Date("2021-08-20T13:00"),
+        end: new Date("2021-08-20T17:00"),
+      },
+    ];
+    const got = mergeRules(
+      toMiniRules(rules, new Date("2021-08-20"), new Date("2021-08-20")),
+    );
+    assert.equal(got.length, expected.length);
+    assertMiniRuleEqual(expected[0], got[0]);
+    assertMiniRuleEqual(expected[1], got[1]);
+    assertMiniRuleEqual(expected[2], got[2]);
+  });
+  /**
+   *         ++++
+   *  ---------
+   *    +++
+   * equals
+   *  --+++----++
+   */
+  it("Three overlapping rules", () => {
+    const rules = [
+      {
+        ...defaultRule,
+        start_date: "2001-01-01",
+        end_date: "2030-12-31",
+        start_time: "08:00",
+        end_time: "17:00",
+        priority: 9,
+      },
+      {
+        ...defaultRule,
+        start_date: "2001-01-01",
+        end_date: "2030-12-31",
+        start_time: "10:00",
+        end_time: "13:00",
+        priority: 8,
+        allow: true,
+      },
+      {
+        ...defaultRule,
+        start_date: "2001-01-01",
+        end_date: "2030-12-31",
+        start_time: "15:00",
+        end_time: "19:00",
+        allow: true,
+      },
+    ];
+    const expected: MiniRule[] = [
+      {
+        ...rules[0],
+        start: new Date("2021-08-20T08:00"),
+        end: new Date("2021-08-20T10:00"),
+      },
+      {
+        ...rules[1],
+        start: new Date("2021-08-20T10:00"),
+        end: new Date("2021-08-20T13:00"),
+      },
+      {
+        ...rules[0],
+        start: new Date("2021-08-20T13:00"),
+        end: new Date("2021-08-20T17:00"),
+      },
+      {
+        ...rules[2],
+        start: new Date("2021-08-20T17:00"),
+        end: new Date("2021-08-20T19:00"),
+      },
+    ];
+    const got = mergeRules(
+      toMiniRules(rules, new Date("2021-08-20"), new Date("2021-08-20")),
+    );
+    assert.equal(got.length, expected.length);
+    assertMiniRuleEqual(expected[0], got[0]);
+    assertMiniRuleEqual(expected[1], got[1]);
+    assertMiniRuleEqual(expected[2], got[2]);
+    assertMiniRuleEqual(expected[3], got[3]);
   });
 });

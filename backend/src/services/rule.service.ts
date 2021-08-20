@@ -69,23 +69,52 @@ export const toMiniRules = (
   return miniRules.sort((a, b): number => a.priority - b.priority);
 };
 
-//TODO: Merge miniRules into non-overlapping miniRules
 export const mergeRules = (rules: MiniRule[]): MiniRule[] => {
-  return [];
+  var mergedRules: MiniRule[] = [];
+  const insert = (rule: MiniRule, [x, ...xs]: MiniRule[]): MiniRule[] => {
+    if (rule.start >= rule.end) return [];
+    if (x == undefined) return [rule];
+    if (x.start > rule.start) {
+      if (x.start >= rule.end) return [rule, x, ...xs];
+      return [
+        { ...rule, end: new Date(x.start) },
+        ...insert({ ...rule, start: new Date(x.end) }, [x, ...xs]),
+      ];
+    }
+    if (x.end > rule.start)
+      return [x, ...insert({ ...rule, start: x.end }, xs)];
+    return [x, ...insert(rule, xs)];
+  };
+  for (const i in rules) {
+    mergedRules = insert(rules[i], mergedRules);
+  }
+  return mergedRules;
+};
+
+const doesObeyRules = (rules: Rule[], event: Event): string => {
+  const start = new Date(event.start);
+  const end = new Date(event.end);
+
+  var mr: MiniRule[] = mergeRules(toMiniRules(rules, start, end));
+  for (const i in mr) {
+    if (mr[i].start < end && mr[i].end >= start) {
+      return mr[i].description;
+    }
+  }
+  return "";
 };
 
 export const checkRules = async (
   db: pg.Pool,
   event: Event,
-): Promise<boolean> => {
-  const { err, res } = await to<pg.QueryResult<Rule[]>>(
+): Promise<string> => {
+  const { err, res } = await to<pg.QueryResult<Rule>>(
     getRulesByEvent(db, event),
   );
   if (err) {
     console.log(err);
-    return false;
+    return "Database error";
   }
 
-  //TODO: Execute check
-  return false;
+  return doesObeyRules(res ? res.rows : [], event);
 };

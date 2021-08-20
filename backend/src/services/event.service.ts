@@ -2,6 +2,7 @@ import { Event } from "../models/event";
 import { to } from "../utils";
 import pg from "pg";
 import * as events from "../repositories/event.repository";
+import { checkRules } from "./rule.service";
 
 export const createEvent = async (
   db: pg.Pool,
@@ -20,6 +21,10 @@ export const createEvent = async (
   }
 
   if (!res || res?.rowCount > 0) {
+    return false;
+  }
+
+  if ((await checkRules(db, event)) !== "") {
     return false;
   }
 
