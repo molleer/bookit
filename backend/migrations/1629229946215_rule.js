@@ -3,7 +3,7 @@
 exports.shorthands = undefined;
 
 exports.up = pgm => {
-  pgm.createTable("party_report", {
+  pgm.createTable("rule", {
     id: {
       type: "uuid",
       primaryKey: true,
@@ -46,6 +46,10 @@ exports.up = pgm => {
     },
     title: {
       type: "string",
+      notNull: true,
+    },
+    room: {
+      type: "text[]",
       notNull: true,
     },
     created_at: {

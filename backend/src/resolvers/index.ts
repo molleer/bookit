@@ -4,15 +4,18 @@ import {
   getPartyReportQResolvers,
   getPartyReportResolvers,
 } from "./party_report.resolver";
+import { getRuleMResolvers, getRuleQResolvers } from "./rule.resolver";
 
 export const getResolvers = (tools: Tools) => {
   return {
     Query: {
       ...getEventQResolvers(tools),
       ...getPartyReportQResolvers(tools),
+      ...getRuleQResolvers(tools),
     },
     Mutation: {
       ...getEventMResolvers(tools),
+      ...getRuleMResolvers(tools),
     },
     ...getPartyReportResolvers(tools),
   };

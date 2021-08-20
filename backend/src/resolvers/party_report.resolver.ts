@@ -25,9 +25,12 @@ export const getPartyReportQResolvers = (tools: Tools) => ({
 
 export const getPartyReportResolvers = (tools: Tools) => ({
   Event: {
-    party_report: async (root: Event, args: any) => {
+    party_report: async ({ id }: Event, args: any) => {
+      if (!id) {
+        return null;
+      }
       const { err, res } = await to<pg.QueryResult<PartyReport>>(
-        getPartyReport(tools.db, string(root.id)),
+        getPartyReport(tools.db, id),
       );
       if (err) {
         console.log(err);

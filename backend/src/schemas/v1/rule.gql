@@ -1,0 +1,39 @@
+type Rule {
+  id: String
+  day_mask: Int
+  start_date: String
+  end_date: String
+  start_time: String
+  end_time: String
+  description: String
+  allow: Boolean
+  priority: Int
+  title: String
+  created_at: String
+  update_at: String
+  room: [Room]
+}
+
+input InputRule {
+  id: String
+  day_mask: Int
+  start_date: String!
+  end_date: String!
+  start_time: String!
+  end_time: String!
+  description: String!
+  allow: Boolean
+  priority: Int
+  title: String!
+  created_at: String
+  update_at: String
+  room: [Room]!
+}
+
+type Query {
+  rules: [Rule]
+}
+
+type Mutation {
+  createRule(rule: InputRule): Boolean
+}

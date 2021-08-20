@@ -1,5 +1,5 @@
 import pg from "pg";
-import { getRulesByEvent } from "../repositories/rule.repository";
+import * as ruleRepo from "../repositories/rule.repository";
 import { Event, Rule } from "../models";
 import { to } from "../utils";
 
@@ -97,7 +97,7 @@ const doesObeyRules = (rules: Rule[], event: Event): string => {
 
   var mr: MiniRule[] = mergeRules(toMiniRules(rules, start, end));
   for (const i in mr) {
-    if (mr[i].start < end && mr[i].end >= start) {
+    if (mr[i].start < end && mr[i].end > start) {
       return mr[i].description;
     }
   }
@@ -109,7 +109,7 @@ export const checkRules = async (
   event: Event,
 ): Promise<string> => {
   const { err, res } = await to<pg.QueryResult<Rule>>(
-    getRulesByEvent(db, event),
+    ruleRepo.getRulesByEvent(db, event),
   );
   if (err) {
     console.log(err);
@@ -117,4 +117,28 @@ export const checkRules = async (
   }
 
   return doesObeyRules(res ? res.rows : [], event);
+};
+
+export const createRule = async (db: pg.Pool, rule: Rule): Promise<boolean> => {
+  const start = new Date(rule.start_date);
+  const end = new Date(rule.end_date);
+  if (!start.valueOf() || !end.valueOf() || start >= end) {
+    console.log("Create rule: Invalid date");
+    return false;
+  }
+  rule.start_date = day(start);
+  rule.end_date = day(end);
+
+  const start_time = new Date(rule.start_date + "T" + rule.start_time);
+  const end_time = new Date(rule.start_date + "T" + rule.end_time);
+  if (!start_time.valueOf() || !end_time.valueOf() || start_time >= end_time) {
+    console.log("Create rule: Invalid time");
+    return false;
+  }
+  const { err } = await to(ruleRepo.createRule(db, rule));
+  if (err) {
+    console.log(err);
+    return false;
+  }
+  return true;
 };

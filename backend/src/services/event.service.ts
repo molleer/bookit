@@ -1,7 +1,7 @@
 import { Event } from "../models/event";
 import { to } from "../utils";
 import pg from "pg";
-import * as events from "../repositories/event.repository";
+import * as eventRepo from "../repositories/event.repository";
 import { checkRules } from "./rule.service";
 
 export const createEvent = async (
@@ -13,7 +13,7 @@ export const createEvent = async (
   }
 
   var { err, res } = await to<pg.QueryResult<Event[]>>(
-    events.getOverlapEvent(db, event),
+    eventRepo.getOverlapEvent(db, event),
   );
   if (err) {
     console.log(err);
@@ -28,7 +28,7 @@ export const createEvent = async (
     return false;
   }
 
-  var { err } = await to<pg.QueryResult<any>>(events.createEvent(db, event));
+  var { err } = await to<pg.QueryResult<any>>(eventRepo.createEvent(db, event));
   if (err) {
     console.log(err);
     return false;
