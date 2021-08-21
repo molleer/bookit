@@ -1,72 +1,59 @@
-import { DigitTable, DigitButton } from "@cthit/react-digit-components";
+import { DigitCRUD } from "@cthit/react-digit-components";
 import DayMask from "./day-mask.element";
 import Rooms from "./rooms.element";
 import CancelIcon from "@material-ui/icons/Cancel";
 import CheckIcon from "@material-ui/icons/Check";
 import "./index.css";
-import { useEffect, useState } from "react";
-import { getRules } from "../../api/backend.api";
+import { getRule, getRules } from "../../api/backend.api";
+import { formatDT } from "../../utils/utils";
+import {
+  detailed_view_keys,
+  detailed_view_texts,
+  table_header_keys,
+  table_header_texts,
+} from "./rules.labels";
 
-/*
-  
-    id: "12345",
-    title: "Study days",
-    start_date: "2001-01-01 00:00:00",
-    end_date: "2030-12-31 00:00:00",
-    start_time: "08:00",
-    end_time: "17:00",
-    day_mask: 31,
-    priority: 10,
-    rooms: ["BIG_HUB", "GROUP_ROOM"],
-    allow: true,
- */
+const formatRule = r => ({
+  ...r,
+  _time: `${r.start_time}-${r.end_time}`,
+  _start_date: r.start_date.split(" ")[0],
+  _end_date: r.end_date.split(" ")[0],
+  _room: <Rooms rooms={r.room} />,
+  _day_mask: <DayMask day_mask={r.day_mask} />,
+  _allow: r.allow ? <CheckIcon /> : <CancelIcon />,
+  created_at: formatDT(r.created_at),
+  updated_at: formatDT(r.updated_at),
+});
+
+const getRulesFormatted = async () => {
+  const rules = await getRules();
+  return rules.map(r => formatRule(r));
+};
+
+const getRuleFormatted = async id => {
+  return { data: formatRule(await getRule(id)) };
+};
 
 const Rules = () => {
-  const [rules, setRules] = useState([]);
-
-  useEffect(() => {
-    getRules().then(data => setRules(data));
-  }, []);
-
   return (
     <div className="container">
-      <DigitTable
-        titleText="Rules"
+      <DigitCRUD
+        readAllRequest={getRulesFormatted}
+        readOneRequest={getRuleFormatted}
+        path="/rules"
         idProp="id"
-        columnsOrder={[
-          "title",
-          "priority",
-          "start_date",
-          "end_date",
-          "time",
-          "room",
-          "day_mask",
-          "allow",
-          "details",
-        ]}
-        headerTexts={{
-          title: "Title",
-          priority: "Prio",
-          start_date: "Start",
-          end_date: "End",
-          time: "Time",
-          room: "Rooms",
-          day_mask: "M T W T F S S",
-          allow: "Allow",
-          details: "",
+        keysOrder={detailed_view_keys}
+        keysText={detailed_view_texts}
+        tableProps={{
+          columnsOrder: table_header_keys,
+          headerTexts: table_header_texts,
+          titleText: "Rules",
+          startOrderBy: "title",
+          startRowsPerPage: 10,
         }}
-        startOrderBy="title"
-        data={rules.map(r => ({
-          ...r,
-          time: `${r.start_time}-${r.end_time}`,
-          start_date: r.start_date.split(" ")[0],
-          end_date: r.end_date.split(" ")[0],
-          room: <Rooms rooms={r.room} />,
-          day_mask: <DayMask day_mask={r.day_mask} />,
-          allow: r.allow ? <CheckIcon /> : <CancelIcon />,
-          details: <DigitButton outlined text="Details" />,
-        }))}
-        startRowsPerPage={10}
+        backButtonText="Back"
+        detailsButtonText="Details"
+        detailsTitle={data => data.title}
       />
     </div>
   );

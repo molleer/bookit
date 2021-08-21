@@ -20,7 +20,7 @@ const defaultRule: Rule = {
   priority: 10,
   title: "",
   created_at: "",
-  update_at: "",
+  updated_at: "",
   room: [],
 };
 

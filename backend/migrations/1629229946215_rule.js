@@ -57,7 +57,7 @@ exports.up = pgm => {
       notNull: true,
       default: "now()",
     },
-    update_at: {
+    updated_at: {
       type: "timestamp",
       notNull: true,
       default: "now()",

@@ -12,6 +12,6 @@ export interface Rule {
   priority: number;
   title: string;
   created_at: string;
-  update_at: string;
+  updated_at: string;
   room: Room[];
 }

@@ -10,7 +10,7 @@ type Rule {
   priority: Int
   title: String
   created_at: String
-  update_at: String
+  updated_at: String
   room: [Room]
 }
 
@@ -26,12 +26,13 @@ input InputRule {
   priority: Int
   title: String!
   created_at: String
-  update_at: String
+  updated_at: String
   room: [Room]!
 }
 
 type Query {
   rules: [Rule]
+  rule(id: String): Rule
 }
 
 type Mutation {

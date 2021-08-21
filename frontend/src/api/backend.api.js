@@ -3,53 +3,64 @@ import {
   getEvents_query,
   createEvent_query,
   getRules_query,
+  getRule_query,
 } from "./backend.queries";
 
 const graphql_endpoint = "/api/graphql/v1";
 
-export const getEvents = (from, to) =>
+const request = (body, dataLabel, errorMessage, onReject = () => null) =>
   new Promise(resolve =>
-    Axios.post(graphql_endpoint, {
+    Axios.post(graphql_endpoint, body)
+      .then(res => resolve(res.data.data[dataLabel]))
+      .catch(err => {
+        console.log(errorMessage);
+        console.log(err);
+        resolve(onReject(err));
+      }),
+  );
+
+export const getEvents = (from, to) =>
+  request(
+    {
       query: getEvents_query,
       variables: { from: from, to: to },
       operationName: "GetEvents",
-    })
-      .then(res => resolve(res.data.data.eventsFT))
-      .catch(err => {
-        console.log("Failed to fetch events");
-        console.log(err);
-        resolve([]);
-      }),
+    },
+    "eventsFT",
+    "Failed to fetch events",
+    () => [],
   );
 
 export const createEvent = event =>
-  new Promise((resolve, reject) =>
-    Axios.post(graphql_endpoint, {
+  request(
+    {
       query: createEvent_query,
       variables: { event: event },
       operationName: "CreateEvent",
-    })
-      .then(res =>
-        res.data.data.createEvent
-          ? resolve()
-          : reject("Failed to create event"),
-      )
-      .catch(err => {
-        console.log("Failed to create event");
-        console.log(err);
-        reject(err.message);
-      }),
+    },
+    "createEvent",
+    "Failed to create event",
+    err => err.message,
   );
 
 export const getRules = () =>
-  new Promise(resolve =>
-    Axios.post(graphql_endpoint, {
+  request(
+    {
       query: getRules_query,
-    })
-      .then(res => resolve(res.data.data.rules))
-      .catch(err => {
-        console.log("Failed to fetch rules");
-        console.log(err);
-        resolve([]);
-      }),
+    },
+    "rules",
+    "Failed to fetch rules",
+    () => [],
+  );
+
+export const getRule = id =>
+  request(
+    {
+      query: getRule_query,
+      variables: { id: id },
+      operationName: "GetRule",
+    },
+    "rule",
+    "Failed to fetch rule",
+    () => ({}),
   );

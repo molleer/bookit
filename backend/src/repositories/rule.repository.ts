@@ -5,7 +5,18 @@ export const getRules = (db: pg.Pool): Promise<pg.QueryResult<Rule>> =>
   db.query<Rule>(
     "SELECT id, day_mask, start_date, end_date, start_time,\
   end_time, description, allow, priority, title, created_at,\
-  update_at, room FROM rule",
+  updated_at, room FROM rule",
+  );
+
+export const getRuleById = (
+  db: pg.Pool,
+  id: string,
+): Promise<pg.QueryResult<Rule>> =>
+  db.query(
+    "SELECT id, day_mask, start_date, end_date, start_time,\
+  end_time, description, allow, priority, title, created_at,\
+  updated_at, room FROM rule WHERE id = $1",
+    [id],
   );
 
 export const getRulesByEvent = (
@@ -14,7 +25,7 @@ export const getRulesByEvent = (
 ): Promise<pg.QueryResult<Rule>> =>
   db.query<Rule>(
     "SELECT id, day_mask, start_date, end_date, start_time,\
-    end_time, description, allow, priority, title, created_at, update_at,\
+    end_time, description, allow, priority, title, created_at, updated_at,\
     room FROM rule WHERE $1 <= end_date AND $2 >= start_date AND $3 = ANY (room)",
     [start, end, room],
   );

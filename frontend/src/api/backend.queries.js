@@ -29,3 +29,22 @@ export const getRules_query = `
   }
 }
 `;
+
+export const getRule_query = `
+query GetRule($id: String!) {
+  rule(id: $id) {
+    id
+    title
+    start_date
+    end_date
+    start_time
+    end_time
+    day_mask
+    priority
+    room
+    allow
+    created_at
+    updated_at
+  }
+}
+`;
