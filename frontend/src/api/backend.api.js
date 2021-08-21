@@ -4,9 +4,15 @@ import {
   createEvent_query,
   getRules_query,
   getRule_query,
+  createRule_query,
 } from "./backend.queries";
 
 const graphql_endpoint = "/api/graphql/v1";
+export const roomNames = {
+  BIG_HUB: "Storhubben",
+  GROUP_ROOM: "Grupprummet",
+  HASEN: "HASen",
+};
 
 const request = (body, dataLabel, errorMessage, onReject = () => null) =>
   new Promise(resolve =>
@@ -63,4 +69,16 @@ export const getRule = id =>
     "rule",
     "Failed to fetch rule",
     () => ({}),
+  );
+
+export const createRule = rule =>
+  request(
+    {
+      query: createRule_query,
+      operationName: "CreateRule",
+      variables: { rule: rule },
+    },
+    "createRule",
+    "Failed to create rule",
+    err => err.message,
   );

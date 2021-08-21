@@ -1,14 +1,10 @@
-const prettyNames = {
-  BIG_HUB: "Storhubben",
-  GROUP_ROOM: "Grupprummet",
-  HASEN: "HASen",
-};
+import { roomNames } from "../../api/backend.api";
 
 const Rooms = ({ rooms }) => {
   return (
     <div>
       {rooms.map(r => (
-        <div key={r}>{prettyNames[r]}</div>
+        <div key={r}>{roomNames[r]}</div>
       ))}
     </div>
   );

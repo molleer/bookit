@@ -41,10 +41,17 @@ query GetRule($id: String!) {
     end_time
     day_mask
     priority
+    description
     room
     allow
     created_at
     updated_at
   }
+}
+`;
+
+export const createRule_query = `
+mutation CreateRule($rule: InputRule!) {
+  createRule(rule: $rule)
 }
 `;
