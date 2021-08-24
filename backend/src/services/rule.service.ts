@@ -142,3 +142,16 @@ export const createRule = async (db: pg.Pool, rule: Rule): Promise<boolean> => {
   }
   return true;
 };
+
+export const deleteRule = async (db: pg.Pool, id: String): Promise<Boolean> => {
+  const { err, res } = await to<pg.QueryResult>(ruleRepo.deleteRule(db, id));
+  if (err) {
+    console.log(err);
+    return false;
+  }
+  if (!res || res?.rowCount <= 0) {
+    console.log("Delete rule: No rule was found");
+    return false;
+  }
+  return true;
+};

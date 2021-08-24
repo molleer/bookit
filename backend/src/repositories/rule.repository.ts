@@ -48,3 +48,8 @@ export const createRule = (db: pg.Pool, rule: Rule) =>
       rule.room,
     ],
   );
+
+export const deleteRule = async (
+  db: pg.Pool,
+  id: String,
+): Promise<pg.QueryResult> => db.query("DELETE FROM rule WHERE id=$1", [id]);

@@ -14,6 +14,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import "./index.css";
 import {
   createRule,
+  deleteRule,
   getRule,
   getRules,
   roomNames,
@@ -68,6 +69,7 @@ const Rules = () => {
         readAllRequest={getRulesFormatted}
         readOneRequest={getRuleFormatted}
         createRequest={createRuleCallback}
+        deleteRequest={deleteRule}
         path="/rules"
         idProp="id"
         keysOrder={detailed_view_keys}

@@ -55,3 +55,9 @@ mutation CreateRule($rule: InputRule!) {
   createRule(rule: $rule)
 }
 `;
+
+export const deleteRule_query = `
+mutation DeleteRule($id: String!) {
+  deleteRule(id: $id) 
+}
+` 

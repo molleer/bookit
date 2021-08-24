@@ -5,6 +5,7 @@ import {
   getRules_query,
   getRule_query,
   createRule_query,
+  deleteRule_query,
 } from "./backend.queries";
 
 const graphql_endpoint = "/api/graphql/v1";
@@ -80,5 +81,17 @@ export const createRule = rule =>
     },
     "createRule",
     "Failed to create rule",
+    err => err.message,
+  );
+
+export const deleteRule = id =>
+  request(
+    {
+      query: deleteRule_query,
+      variables: { id: id },
+      operationName: "DeleteRule",
+    },
+    "deleteRule",
+    "Failed to delete rule",
     err => err.message,
   );

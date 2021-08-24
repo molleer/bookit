@@ -1,7 +1,7 @@
 import pg from "pg";
 import { Rule } from "../models";
 import { getRuleById, getRules } from "../repositories/rule.repository";
-import { createRule } from "../services/rule.service";
+import { createRule, deleteRule } from "../services/rule.service";
 import { to } from "../utils";
 import { Tools } from "../utils/commonTypes";
 
@@ -30,4 +30,5 @@ export const getRuleQResolvers = ({ db }: Tools) => ({
 
 export const getRuleMResolvers = ({ db }: Tools) => ({
   createRule: async (_: any, { rule }: { rule: Rule }) => createRule(db, rule),
+  deleteRule: async (_: any, { id }: { id: String }) => deleteRule(db, id),
 });
