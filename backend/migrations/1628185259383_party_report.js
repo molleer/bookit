@@ -9,12 +9,6 @@ exports.up = pgm => {
       primaryKey: true,
       default: pgm.func("uuid_generate_v1()"),
     },
-    event_id: {
-      type: "uuid",
-      foreignKey: true,
-      references: "event(id)",
-      notNull: true,
-    },
     responsible_name: {
       type: "string",
       notNull: true,
@@ -38,12 +32,10 @@ exports.up = pgm => {
     },
     serving_permit: {
       type: "boolean",
-      notNull: true,
       default: false,
     },
     status: {
       type: "string",
-      notNull: true,
       default: "PENDING",
     },
   });

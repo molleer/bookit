@@ -3,12 +3,17 @@
 exports.shorthands = undefined;
 
 exports.up = pgm => {
-  pgm.createExtension("uuid-ossp");
   pgm.createTable("event", {
     id: {
       type: "uuid",
       primaryKey: true,
       default: pgm.func("uuid_generate_v1()"),
+    },
+    party_report_id: {
+      type: "uuid",
+      foreignKey: true,
+      references: "party_report(id)",
+      notNull: false,
     },
     title: {
       type: "text",

@@ -10,5 +10,6 @@ export interface Event {
   created_at: string;
   updated_at: string;
   party_report?: PartyReport;
+  party_report_id?: string;
   room: Room;
 }

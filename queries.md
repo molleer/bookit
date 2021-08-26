@@ -1,24 +1,24 @@
 ## SQL queries
 
-### Insert element
+### Insert event
 
 ```SQL
-INSERT INTO event (title, description, start, end_date as end, room) VALUES (
+INSERT INTO event (title, description, start, end_date, room, party_report_id) VALUES (
     'Fun Event',
     'A verry good event',
     '2021-08-10T21:00' ,
     '2021-08-10T22:00',
-    '{ BIG_HUB }') RETURNING id;
+    'BIG_HUB',
+    null);
 ```
 
 ### Insert party report
 
 ```SQL
-INSERT INTO party_report (event_id, responsible_name, responsible_number, responsible_email) VALUES (
-  '32611ba8-fade-11eb-9574-0242ac1a0002',
+INSERT INTO party_report (responsible_name, responsible_number, responsible_email) VALUES (
   'Alice',
   '1234',
-  'alice@alice.com');
+  'alice@alice.com') RETURNING id;
 ```
 
 ### Inner join select

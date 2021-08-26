@@ -6,31 +6,29 @@ import { Event } from "../models/event";
 import {
   getPartyReport,
   getPartyReports,
-  JoinedPartyReport,
-  toPartyReport,
 } from "../repositories/party_report.repository";
 
 export const getPartyReportQResolvers = (tools: Tools) => ({
   party_reports: async () => {
-    const { err, res } = await to<pg.QueryResult<JoinedPartyReport>>(
+    const { err, res } = await to<pg.QueryResult<PartyReport>>(
       getPartyReports(tools.db),
     );
     if (err) {
       console.log(err);
       return [];
     }
-    return res?.rows.map(e => toPartyReport(e));
+    return res ? res.rows : [];
   },
 });
 
 export const getPartyReportResolvers = (tools: Tools) => ({
   Event: {
-    party_report: async ({ id }: Event, args: any) => {
-      if (!id) {
+    party_report: async ({ party_report_id }: Event, args: any) => {
+      if (!party_report_id) {
         return null;
       }
       const { err, res } = await to<pg.QueryResult<PartyReport>>(
-        getPartyReport(tools.db, id),
+        getPartyReport(tools.db, party_report_id),
       );
       if (err) {
         console.log(err);
