@@ -8,6 +8,7 @@ type Event {
   updated_at: String
   party_report: PartyReport
   room: [Room]!
+  phone: String!
 }
 
 type Query {
@@ -26,6 +27,7 @@ input InputEvent {
   updated_at: String
   party_report: InputPartyReport
   room: Room!
+  phone: String!
 }
 
 type Mutation {

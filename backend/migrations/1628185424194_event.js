@@ -15,6 +15,10 @@ exports.up = pgm => {
       references: "party_report(id)",
       notNull: false,
     },
+    phone: {
+      type: "text",
+      notNull: true,
+    },
     title: {
       type: "text",
       notNull: true,

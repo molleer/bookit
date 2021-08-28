@@ -16,25 +16,22 @@ const PartyReport = () => {
     <>
       <DigitCheckbox
         {...activityValues}
-        label="Jag vill aktivitetsanmäla"
+        label="Submit party report"
         size={{ width: "100%" }}
       />
       {activityValues.value && (
         <>
-          <DigitCheckbox {...permitValues} label="Serveringstillstånd" />
+          <DigitCheckbox {...permitValues} label="Serving permit" />
 
           <DigitLayout.Row>
-            <DigitTextField
-              {...repNameValues}
-              upperLabel="Namn aktivitetsansvarig"
-            />
+            <DigitTextField {...repNameValues} upperLabel="Responsible name" />
             <DigitTextField
               {...repNumberValues}
-              upperLabel="Tel aktivitetsansvarig"
+              upperLabel="Responsible phone"
             />
             <DigitTextField
               {...repEmailValues}
-              upperLabel="Email aktivitetsansvarig"
+              upperLabel="Responsible email"
             />
           </DigitLayout.Row>
         </>

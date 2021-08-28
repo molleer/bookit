@@ -5,6 +5,7 @@ import Header from "./common/components/header";
 import Home from "./use-cases/home";
 import NewReservation from "./use-cases/new-event";
 import Rules from "./use-cases/rules";
+import PartyReports from "./use-cases/party_reports";
 
 const App = () => (
   <DigitProviders>
@@ -13,6 +14,7 @@ const App = () => (
         <Route exact path="/" component={Home} />
         <Route exact path="/new-event" component={NewReservation} />
         <Route path="/rules" component={Rules} />
+        <Route path="/party_reports" component={PartyReports} />
         <Route path="/" component={() => <h1>Page not found</h1>} />
       </Switch>
     </Header>

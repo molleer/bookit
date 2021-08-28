@@ -17,6 +17,7 @@ import * as moment from "moment";
 import PartyReport from "./party-report.component";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
+import { roomNames } from "../../api/backend.api";
 
 const whenTrue = {
   is: true,
@@ -53,7 +54,7 @@ const default_end_date = moment(new Date()).add(1, "h").toDate();
 const initialValues = {
   title: "",
   phone: "",
-  room: "",
+  room: "BIG_HUB",
   start: default_begin_date,
   end: default_end_date,
   description: "",
@@ -64,20 +65,10 @@ const initialValues = {
   responsible_email: "",
 };
 
-const rooms = [
-  {
-    text: "Storhubben",
-    value: "BIG_HUB",
-  },
-  {
-    text: "Grupprummet",
-    value: "GROUP_ROOM",
-  },
-  {
-    text: "Studierummet",
-    value: "STUDY_ROOM",
-  },
-];
+const rooms = Object.keys(roomNames).map(k => ({
+  value: k,
+  text: roomNames[k],
+}));
 
 const NewReservationFrom = ({ onSubmit }) => {
   const [openToast] = useDigitToast({

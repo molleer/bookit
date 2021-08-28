@@ -12,4 +12,5 @@ export interface Event {
   party_report?: PartyReport;
   party_report_id?: string;
   room: Room;
+  phone: string;
 }
