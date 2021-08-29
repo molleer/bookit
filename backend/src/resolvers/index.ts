@@ -5,10 +5,12 @@ import {
   getPartyReportResolvers,
 } from "./party_report.resolver";
 import { getRuleMResolvers, getRuleQResolvers } from "./rule.resolver";
+import { getUserQResolvers } from "./user.resolver";
 
 export const getResolvers = (tools: Tools) => {
   return {
     Query: {
+      ...getUserQResolvers(),
       ...getEventQResolvers(tools),
       ...getPartyReportQResolvers(tools),
       ...getRuleQResolvers(tools),

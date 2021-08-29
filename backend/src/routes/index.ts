@@ -13,13 +13,27 @@ import { Tools } from "../utils/commonTypes";
 
 const setupAuth = (app: express.Application, { passport }: Tools) => {
   app.get("/api/login", passport.authenticate("gamma"));
+  app.get("/api/checkLogin", (req, res) => {
+    if (req.isAuthenticated()) {
+      res.send("OK");
+      res.status(200);
+      return;
+    }
+    res.status(401);
+  });
   app.get(
     "/api/callback",
     passport.authenticate("gamma"),
     (req: express.Request, res: express.Response) => {
-      res.send(req.user).end(200);
+      res.send(req.user);
+      res.status(200);
     },
   );
+  app.get("/api/logout", (req: express.Request, res: express.Response) => {
+    req.logOut();
+    res.send("OK");
+    res.status(200);
+  });
 };
 
 const setupGraphql = (app: express.Application, tools: Tools) => {
@@ -28,22 +42,27 @@ const setupGraphql = (app: express.Application, tools: Tools) => {
     loadFilesSync(join(__dirname, "../schemas/v1/*.gql")),
   );
 
-  app.use(
-    "/api/graphql/v1",
-    (req: express.Request, res: express.Response, next: () => void) => {
-      if (req.isAuthenticated()) {
-        return next();
-      }
-      res.send("User not logged in").end(401);
-    },
-    graphqlHTTP({
+  const router = express.Router();
+  router.use((req: express.Request, res: express.Response, next) => {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+
+    res.status(401);
+    next("User not logged in");
+  });
+  router.use(
+    "/v1",
+    graphqlHTTP((req: any) => ({
       schema: makeExecutableSchema({
         typeDefs: typeDefs,
         resolvers: getResolvers(tools),
       }),
       graphiql: graphiql,
-    }),
+      context: { user: req.user },
+    })),
   );
+  app.use("/api/graphql", router);
 
   app.get("/", (_, res) => {
     res.redirect("/api/graphql/v1");

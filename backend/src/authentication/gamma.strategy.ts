@@ -1,5 +1,6 @@
 import Strategy from "./strategy";
 import passport from "passport";
+import { User } from "../models/user";
 
 const default_options = {
   authorizationURL: "http://localhost:8081/api/oauth/authorize",
@@ -13,17 +14,14 @@ const default_options = {
 export const init = (pass: passport.PassportStatic) => {
   const strategy = new Strategy(
     {
-      authorizationURL:
-        process.env.GAMMA_AUTH_URL || default_options.authorizationURL,
-      tokenURL: process.env.GAMMA_TOKEN_URL || default_options.tokenURL,
-      profileURL: process.env.GAMMA_USER_URL || default_options.profileURL,
-      clientID: process.env.GAMMA_CLIENT_ID || default_options.clientID,
-      clientSecret:
-        process.env.GAMMA_CLIENT_SECRET || default_options.clientSecret,
-      callbackURL:
-        process.env.GAMMA_CALLBACK_URL || default_options.callbackURL,
+      authorizationURL: process.env.GAMMA_AUTH_URL || "",
+      tokenURL: process.env.GAMMA_TOKEN_URL || "",
+      profileURL: process.env.GAMMA_USER_URL || "",
+      clientID: process.env.GAMMA_CLIENT_ID || "",
+      clientSecret: process.env.GAMMA_CLIENT_SECRET || "",
+      callbackURL: process.env.GAMMA_CALLBACK_URL || "",
     },
-    (accessToken, profile, cb) => {
+    (accessToken, profile, cb: (_: any, __: User, ___: any) => void) => {
       cb(
         null,
         {

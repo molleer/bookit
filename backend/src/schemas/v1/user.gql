@@ -1,0 +1,10 @@
+type User {
+  cid: String!
+  phone: String
+  groups: [String]!
+  authorities: [String]!
+}
+
+type Query {
+  user: User
+}

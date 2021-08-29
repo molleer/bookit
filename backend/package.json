@@ -16,7 +16,9 @@
     "@graphql-tools/load-files": "^6.3.2",
     "@graphql-tools/merge": "^7.0.0",
     "@graphql-tools/schema": "^8.0.3",
+    "@types/connect-redis": "^0.0.17",
     "axios": "^0.21.1",
+    "connect-redis": "^6.0.0",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
     "express-session": "^1.17.2",
@@ -27,6 +29,7 @@
     "passport-gamma": "^0.0.6",
     "pg": "^8.7.1",
     "qs": "^6.10.1",
+    "redis": "^3.1.2",
     "ts-node": "^10.2.0"
   },
   "devDependencies": {
@@ -39,6 +42,7 @@
     "@types/node": "^16.4.13",
     "@types/passport": "^1.0.7",
     "@types/pg": "^8.6.1",
+    "@types/redis": "^2.8.31",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "chai": "^4.3.4",
