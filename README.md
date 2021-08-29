@@ -17,7 +17,7 @@ A booking service for the Chalmers Software Engineering Student Division (IT)
 
 ## Setup
 
-Database
+Dependencies
 
 ```sh
 docker compose up -d
@@ -53,5 +53,4 @@ Go to http://localhost:3000 to view the website
 - [ExpressJs](http://expressjs.com/) to create backend endpoints
 - [GraphQL](https://graphql.org/) to create a flexible web API
 - [ReactJs](https://reactjs.org/) framework to create the frontend
-
-<!-- [Redis](https://redis.io/) to store user sessions-->
+- [Redis](https://redis.io/) to store user sessions
