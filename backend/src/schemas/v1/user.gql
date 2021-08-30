@@ -2,7 +2,7 @@ type User {
   cid: String!
   phone: String
   groups: [String]!
-  authorities: [String]!
+  is_admin: Boolean!
 }
 
 type Query {

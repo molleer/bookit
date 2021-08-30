@@ -12,7 +12,7 @@ export GAMMA_TOKEN_URL=http://localhost:8081/api/oauth/token
 export GAMMA_USER_URL=http://localhost:8081/api/users/me
 export GAMMA_CLIENT_ID=id
 export GAMMA_CLIENT_SECRET=secret
-export GAMMA_CALLBACK_URL=http://localhost:3001/auth/account/callback
+export GAMMA_CALLBACK_URL=http://localhost:3001/auth/callback
 
 export REDIS_HOST=localhost
 export REDIS_PORT=6379
@@ -20,3 +20,5 @@ export REDIS_PASS=""
 
 export SESSION_SECRET=secret
 export GRAPHIQL=true
+export MOCK=true
+export ADMIN_AUTHORITY=bookit-admin

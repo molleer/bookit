@@ -1,4 +1,4 @@
-import Strategy from "./strategy";
+import Strategy, { Authority } from "./strategy";
 import passport from "passport";
 import { User } from "../models/user";
 
@@ -9,6 +9,20 @@ const default_options = {
   clientID: "id",
   clientSecret: "secret",
   callbackURL: "http://localhost:3001/auth/account/callback",
+};
+
+const isAdmin = (authorities: Authority[]): boolean => {
+  if (process.env.MOCK == "true") {
+    return true;
+  }
+
+  for (const i in authorities) {
+    if (authorities[i].authority == process.env.ADMIN_AUTHORITY) {
+      return true;
+    }
+  }
+
+  return false;
 };
 
 export const init = (pass: passport.PassportStatic) => {
@@ -27,7 +41,7 @@ export const init = (pass: passport.PassportStatic) => {
         {
           cid: profile.cid,
           phone: profile.phone,
-          authorities: profile.authorities.map(a => a.authority),
+          is_admin: isAdmin(profile.authorities),
           groups: profile.groups
             .filter(g => g.superGroup.type != "ALUMNI")
             .map(g => g.superGroup.name),

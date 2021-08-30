@@ -17,10 +17,15 @@ interface StrategyOptions {
   callbackURL: string;
 }
 
+export interface Authority {
+  id: string;
+  authority: string;
+}
+
 interface GammaUser {
   cid: string;
   phone?: string;
-  authorities: { id: string; authority: string }[];
+  authorities: Authority[];
   groups: { superGroup: { name: string; type: string } }[];
 }
 
@@ -93,7 +98,6 @@ class Strategy extends passport.Strategy {
   }
 
   _loadProfile(accessToken: string) {
-    console.log("I have gotten a token!");
     const self = this;
     var done = (err: Error | null, profile: any, info: any) => {
       if (err) {

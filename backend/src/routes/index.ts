@@ -13,14 +13,6 @@ import { Tools } from "../utils/commonTypes";
 
 const setupAuth = (app: express.Application, { passport }: Tools) => {
   app.get("/api/login", passport.authenticate("gamma"));
-  app.get("/api/checkLogin", (req, res) => {
-    if (req.isAuthenticated()) {
-      res.send("OK");
-      res.status(200);
-      return;
-    }
-    res.status(401);
-  });
   app.get(
     "/api/callback",
     passport.authenticate("gamma"),
@@ -49,7 +41,6 @@ const setupGraphql = (app: express.Application, tools: Tools) => {
     }
 
     res.status(401);
-    next("User not logged in");
   });
   router.use(
     "/v1",

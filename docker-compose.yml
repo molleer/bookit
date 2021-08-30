@@ -2,7 +2,6 @@ version: "3"
 services:
   db:
     image: postgres:12
-    restart: unless-stopped
     environment:
       POSTGRES_DB: bookit
       POSTGRES_USER: postgres
@@ -44,7 +43,7 @@ services:
       DEFAULT_CLIENT_NAME: demo
       DEFAULT_CLIENT_ID: id
       DEFAULT_CLIENT_SECRET: secret
-      DEFAULT_REDIRECT_URI: http://localhost:3001/auth/account/callback
+      DEFAULT_REDIRECT_URI: http://localhost:3001/auth/callback
       DEFAULT_API_KEY: key
 
       SERVER_PORT: 8081

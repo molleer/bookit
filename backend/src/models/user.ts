@@ -1,7 +1,7 @@
 export interface User {
   cid: string;
   phone?: string;
-  authorities: string[];
+  is_admin: boolean;
   groups: string[];
   accessToken: string;
 }

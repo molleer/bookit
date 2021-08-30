@@ -60,4 +60,14 @@ export const deleteRule_query = `
 mutation DeleteRule($id: String!) {
   deleteRule(id: $id) 
 }
-` 
+`;
+
+export const getUser_query = `
+{
+  user {
+    cid
+    groups
+    is_admin
+  }
+}
+`;
