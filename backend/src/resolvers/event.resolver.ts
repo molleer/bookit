@@ -37,6 +37,16 @@ export const getEventQResolvers = ({ db }: Tools) => ({
     if (!res || res?.rows.length < 1) return { id: "Hello" };
     return res?.rows[0];
   },
+  party_events: async () => {
+    const { err, res } = await to<pg.QueryResult<Event>>(
+      events.getPartyEvents(db),
+    );
+    if (err) {
+      console.log(err);
+      return [];
+    }
+    return res ? res.rows : [];
+  },
 });
 
 export const getEventMResolvers = ({ db }: Tools) => ({

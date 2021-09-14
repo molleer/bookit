@@ -1,13 +1,5 @@
-import {
-  DigitCRUD,
-  DigitTextField,
-  DigitDatePicker,
-  DigitTextArea,
-  DigitTimePicker,
-  DigitSwitch,
-  DigitAutocompleteSelectMultiple,
-} from "@cthit/react-digit-components";
-import DayMask, { DayMaskInput } from "./day-mask.element";
+import { DigitCRUD } from "@cthit/react-digit-components";
+import DayMask from "./day-mask.element";
 import Rooms from "./rooms.element";
 import CancelIcon from "@material-ui/icons/Cancel";
 import CheckIcon from "@material-ui/icons/Check";
@@ -17,7 +9,6 @@ import {
   deleteRule,
   getRule,
   getRules,
-  roomNames,
 } from "../../api/backend.api";
 import { formatDate, formatDT, formatTime } from "../../utils/utils";
 import {
@@ -26,6 +17,7 @@ import {
   table_header_keys,
   table_header_texts,
 } from "./rules.labels";
+import { ruleForm } from "./rule.form";
 
 const formatRule = r => ({
   ...r,
@@ -97,77 +89,7 @@ const Rules = () => {
           description: "",
           _room: [],
         }}
-        formComponentData={{
-          title: {
-            component: DigitTextField,
-            componentProps: {
-              outlined: true,
-              upperLabel: "Title",
-            },
-          },
-          priority: {
-            component: DigitTextField,
-            componentProps: {
-              outlined: true,
-              upperLabel: "Priority",
-            },
-          },
-          start_date: {
-            component: DigitDatePicker,
-            componentProps: {
-              outlined: true,
-              upperLabel: "Start date",
-            },
-          },
-          end_date: {
-            component: DigitDatePicker,
-            componentProps: {
-              outlined: true,
-              upperLabel: "End date",
-            },
-          },
-          start_time: {
-            component: DigitTimePicker,
-            componentProps: {
-              outlined: true,
-              upperLabel: "Start time",
-            },
-          },
-          end_time: {
-            component: DigitTimePicker,
-            componentProps: {
-              outlined: true,
-              upperLabel: "End time",
-            },
-          },
-          description: {
-            component: DigitTextArea,
-            componentProps: {
-              outlined: true,
-              upperLabel: "Description",
-              rows: 3,
-            },
-          },
-          _room: {
-            component: DigitAutocompleteSelectMultiple,
-            componentProps: {
-              options: Object.keys(roomNames).map(k => ({
-                value: k,
-                text: roomNames[k],
-              })),
-            },
-          },
-          _day_mask: {
-            component: DayMaskInput,
-          },
-          _allow: {
-            component: DigitSwitch,
-            componentProps: {
-              primary: true,
-              label: "Allow",
-            },
-          },
-        }}
+        formComponentData={ruleForm}
       />
     </div>
   );

@@ -6,6 +6,7 @@ import {
   getRules_query,
   getRule_query,
   createRule_query,
+  getPartyReports_query,
   deleteRule_query,
   getUser_query,
 } from "./backend.queries";
@@ -96,6 +97,16 @@ export const deleteRule = id =>
     "deleteRule",
     "Failed to delete rule",
     err => err.message,
+  );
+
+export const getPartyReports = () =>
+  request(
+    {
+      query: getPartyReports_query,
+    },
+    "party_events",
+    "Failed to fetch party reports",
+    () => [],
   );
 
 export const getUser = () =>

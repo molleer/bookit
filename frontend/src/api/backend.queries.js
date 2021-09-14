@@ -71,3 +71,30 @@ export const getUser_query = `
   }
 }
 `;
+
+export const getPartyReports_query = `
+{
+	party_events {
+    id
+    start
+    end
+    description
+    title
+    created_at
+    phone
+    room
+    party_report {
+      id
+      status
+      responsible_name
+      responsible_number
+      responsible_email
+      co_responsible_name
+      co_responsible_number
+      co_responsible_email
+      serving_permit
+      status
+    }
+  }
+}
+`;

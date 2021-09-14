@@ -7,7 +7,7 @@ type Event {
   created_at: String
   updated_at: String
   party_report: PartyReport
-  room: [Room]!
+  room: Room!
   phone: String!
 }
 
@@ -15,6 +15,7 @@ type Query {
   events: [Event]
   event(id: String): Event
   eventsFT(from: String!, to: String!): [Event]
+  party_events: [Event]
 }
 
 input InputEvent {

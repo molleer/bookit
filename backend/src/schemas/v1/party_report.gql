@@ -14,7 +14,6 @@ type PartyReport {
   co_responsible_email: String
   serving_permit: Boolean
   status: RegistrationStatus
-  event: Event
 }
 
 input InputPartyReport {

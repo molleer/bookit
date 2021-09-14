@@ -7,6 +7,13 @@ export const getEvents = (db: pg.Pool): Promise<pg.QueryResult<Event[]>> =>
     description, title, created_at, updated_at, room FROM event",
   );
 
+export const getPartyEvents = (db: pg.Pool): Promise<pg.QueryResult<Event>> =>
+  db.query<Event>(
+    "SELECT id, party_report_id, start, end_date as end, phone,\
+    description, title, created_at, updated_at, room FROM event \
+    WHERE party_report_id IS NOT NULL",
+  );
+
 export const getEventsFT = (
   db: pg.Pool,
   from: string,
