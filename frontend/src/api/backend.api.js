@@ -9,6 +9,7 @@ import {
   getPartyReports_query,
   deleteRule_query,
   getUser_query,
+  getPartyReport_query,
 } from "./backend.queries";
 
 const graphql_endpoint = "/api/graphql/v1";
@@ -107,6 +108,18 @@ export const getPartyReports = () =>
     "party_events",
     "Failed to fetch party reports",
     () => [],
+  );
+
+export const getPartyReport = id =>
+  request(
+    {
+      query: getPartyReport_query,
+      variables: { id: id },
+      operationName: "GetEvent",
+    },
+    "event",
+    "Unable to fetch event with party report",
+    () => {},
   );
 
 export const getUser = () =>

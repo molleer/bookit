@@ -78,6 +78,21 @@ export const getPartyReports_query = `
     id
     start
     end
+    title
+    created_at
+    party_report {
+      status
+    }
+  }
+}
+`;
+
+export const getPartyReport_query = `
+query GetEvent($id: String) {
+  event(id: $id) {
+    id
+    start
+    end
     description
     title
     created_at
@@ -93,7 +108,6 @@ export const getPartyReports_query = `
       co_responsible_number
       co_responsible_email
       serving_permit
-      status
     }
   }
 }

@@ -34,7 +34,7 @@ export const getEventQResolvers = ({ db }: Tools) => ({
       console.log(err);
       return {};
     }
-    if (!res || res?.rows.length < 1) return { id: "Hello" };
+    if (!res || res?.rows.length < 1) return {};
     return res?.rows[0];
   },
   party_events: async () => {

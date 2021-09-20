@@ -19,6 +19,19 @@ export const getPartyReportQResolvers = (tools: Tools) => ({
     }
     return res ? res.rows : [];
   },
+  party_report: async (_: any, { id }: { id: string }) => {
+    const { err, res } = await to<pg.QueryResult<PartyReport>>(
+      getPartyReport(tools.db, id),
+    );
+    if (err) {
+      console.log(err);
+      return {};
+    }
+    if (!res || res?.rows.length < 1) {
+      return {};
+    }
+    return res?.rows[0];
+  },
 });
 
 export const getPartyReportResolvers = (tools: Tools) => ({

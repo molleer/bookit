@@ -30,4 +30,5 @@ input InputPartyReport {
 
 type Query {
   party_reports: [PartyReport]
+  party_report(id: String): PartyReport
 }
