@@ -40,7 +40,7 @@ const setupGraphql = (app: express.Application, tools: Tools) => {
       return next();
     }
 
-    res.status(401);
+    res.status(401).end();
   });
   router.use(
     "/v1",
