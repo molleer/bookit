@@ -8,7 +8,8 @@
     "dev": "ts-node-dev --log-error --unhandled-rejections=none src/index.ts",
     "migration": "node-pg-migrate",
     "migrate": "node-pg-migrate up",
-    "test": "mocha -r ts-node/register ./src/tests/*.test.ts"
+    "test": "mocha -r ts-node/register ./src/tests/*.test.ts",
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",

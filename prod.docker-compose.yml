@@ -1,0 +1,103 @@
+version: "3"
+services:
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+      - redis
+    environment:
+      DB_USER: postgres
+      DB_PASS: password
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: bookit
+
+      GAMMA_AUTH_URL: http://localhost:8081/api/oauth/authorize
+      GAMMA_TOKEN_URL: http://localhost:8081/api/oauth/token
+      GAMMA_USER_URL: http://localhost:8081/api/users/me
+      GAMMA_CLIENT_ID: id
+      GAMMA_CLIENT_SECRET: secret
+      GAMMA_CALLBACK_URL: http://localhost:3001/auth/callback
+
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASS: ""
+
+      SESSION_SECRET: secret
+      GRAPHIQL: "true"
+      MOCK: "false"
+      ADMIN_AUTHORITY: bookit-admin
+      PORT: 8080
+
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: bookit
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+
+  redis:
+    image: redis:5.0
+    ports:
+      - 6379:6379
+
+  ################## Gamma ##################
+  gamma-frontend:
+    image: cthit/gamma-frontend:development
+    environment:
+      HTTP_PROXY: http://gamma-backend:8081
+    depends_on:
+      - gamma-backend
+    ports:
+      - 3000:3000
+
+  gamma-backend:
+    image: cthit/gamma-backend:development
+    environment:
+      # Default admin user name = admin
+      # Default admin password  = password
+
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_HOST: gamma-db
+      DB_PORT: 5432
+      DB_NAME: postgres
+
+      REDIS_HOST: gamma-redis
+      REDIS_PASSWORD: ""
+      REDIS_PORT: 6379
+
+      DEFAULT_CLIENT_NAME: demo
+      DEFAULT_CLIENT_ID: id
+      DEFAULT_CLIENT_SECRET: secret
+      DEFAULT_REDIRECT_URI: http://localhost:3001/auth/callback
+      DEFAULT_API_KEY: key
+
+      SERVER_PORT: 8081
+      SUCCESSFUL_LOGIN: http://localhost:3000
+      CORS_ALLOWED_ORIGIN: http://localhost:3000
+      BACKEND_URI: http://localhost:8081/api/
+      PRODUCTION: "false"
+      COOKIE_DOMAIN: localhost
+      IS_MOCKING: "true"
+    depends_on:
+      - gamma-redis
+      - gamma-db
+    ports:
+      - 8081:8081
+
+  gamma-redis:
+    image: redis:5.0
+
+  gamma-db:
+    image: postgres:10
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: password
