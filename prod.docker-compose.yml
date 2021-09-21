@@ -17,8 +17,8 @@ services:
       DB_NAME: bookit
 
       GAMMA_AUTH_URL: http://localhost:8081/api/oauth/authorize
-      GAMMA_TOKEN_URL: http://localhost:8081/api/oauth/token
-      GAMMA_USER_URL: http://localhost:8081/api/users/me
+      GAMMA_TOKEN_URL: http://gamma-backend:8081/api/oauth/token
+      GAMMA_USER_URL: http://gamma-backend:8081/api/users/me
       GAMMA_CLIENT_ID: id
       GAMMA_CLIENT_SECRET: secret
       GAMMA_CALLBACK_URL: http://localhost:3001/auth/callback
@@ -29,7 +29,7 @@ services:
 
       SESSION_SECRET: secret
       GRAPHIQL: "true"
-      MOCK: "false"
+      MOCK: "true"
       ADMIN_AUTHORITY: bookit-admin
       PORT: 8080
 

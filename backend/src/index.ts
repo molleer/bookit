@@ -5,18 +5,20 @@ import { setupRoutes } from "./routes";
 import { init } from "./authentication/gamma.strategy";
 import passport from "passport";
 import redis from "redis";
-const redisStore = require("connect-redis")(session);
+const RedisStore = require("connect-redis")(session);
 
 const app = express();
 init(passport);
 app.use(
   session({
     secret: String(process.env.SESSION_SECRET),
-    store: new redisStore({
-      host: process.env.REDIS_HOST,
-      port: Number(process.env.REDIS_PORT),
-      client: redis.createClient(),
-      password: process.env.REDIS_PASS,
+    store: new RedisStore({
+      client: redis.createClient({
+        host: process.env.REDIS_HOST,
+        port: Number(process.env.REDIS_PORT),
+        password: process.env.REDIS_PASS,
+        db: 1,
+      }),
     }),
     resave: false,
     saveUninitialized: false,
